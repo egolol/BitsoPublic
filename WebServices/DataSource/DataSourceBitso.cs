@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Utils.Model;
-using static WebServices.Client.ManifestException;
-using static WebServices.Client.GetConfiguration;
 using WebServices.DataSource;
+using static WebServices.Client.GetConfiguration;
+using static WebServices.Client.ManifestException;
 
 namespace WebServices
 {
@@ -31,6 +27,14 @@ namespace WebServices
         public static async Task<ResponseModel> GetTradesAsync(string book, int id, string sort)
             => await AdministradorExcepciones(
              await InvokeBitso.GetRequestPublicAsync(GetUrl(UrlApiBitso, Trades) + $"book={book}&marker={id}&sort={sort}&limit=100"));
+
+        public static async Task<ResponseModel> RequestSigning(string signature)
+            => await AdministradorExcepciones(
+                await InvokeBitso.GetRequestPrivateAsync(GetSignatureUrl(UrlApiBitso, Balance)));
+
+        public static async Task<ResponseModel> RequestAccountStatus(string signature)
+            => await AdministradorExcepciones(
+                await InvokeBitso.GetRequestPrivateAsync(GetSignatureUrl(UrlApiBitso, Status)));
 
     }
 }
